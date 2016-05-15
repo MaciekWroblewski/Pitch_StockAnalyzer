@@ -1,0 +1,11 @@
+base
+shiny
+slidify
+devtools
+knitr
+zoo
+xts
+TTR
+quantmod
+timeDate
+forecast

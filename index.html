@@ -1,1 +1,158 @@
-nothing interesting
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stock Analyzer application</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Stock Analyzer application">
+  <meta name="author" content="Maciek">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Stock Analyzer application</h1>
+    <h2>Software presentation</h2>
+    <p>Maciek<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Purpose of application</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Purpose of the application and value delivered to users by Stock Analyzer:</p>
+
+<ul>
+<li>facilitates analysis of financial data by visualization and summarizing stock price time series</li>
+<li>wide choice of up-to-date financial data for analyzis thanks to sourcing data from yahoo</li>
+<li>automatically fits best ARIMA model to chosen data</li>
+<li>provides forecast based on fitted model along with visualization of such forecasts</li>
+<li>possibility of choosing forecast period (between 1 and 10 observations, however, in my view, ARIMA models are useful rather for purpose of short term forecasts)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Back-end - downloading data</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Stock Analyzer uses quantmod library which provides many useful tools for sourcing and analyzing data.</p>
+
+<p>Below code downloads financial data for TESLA (manufacturer of my favourite cars) for the indicated period.</p>
+
+<pre><code class="r">suppressWarnings(library(quantmod))
+data&lt;-suppressWarnings(getSymbols(Symbols=&quot;TSLA&quot;,src=&quot;yahoo&quot;,auto.assign=FALSE,
+from = &quot;2015-01-01&quot;,to = &quot;2015-3-31&quot;))
+data&lt;-data[,4] #get only closing prices
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Back - end - plotting data</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Quantmod package is also used for visualizaing data which is done with the following code.</p>
+
+<pre><code class="r">chartSeries(data,ctype=&quot;line&quot;,name = &quot;Plot for TESLA closing prices&quot;)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-2-1.png" alt="plot of chunk unnamed-chunk-2"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Back - end - fitting model</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>After visualizing model we use forecast library (which is great for dealing with time series data) to fit best ARIMA model. In short auto.arima function which is used fits best ARIMA model based on information criteria (in our case AIC criterion). The functions goes through different values of parameters (p,d,q) and chooses best model. Following code performs model fitting.  </p>
+
+<pre><code class="r">suppressWarnings(library(forecast))
+fit&lt;-auto.arima(data,ic=&quot;aic&quot;,stepwise=TRUE,trace=FALSE)
+</code></pre>
+
+<p>Thank you very much for your attention and enjoy using Stock Analyzer!</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Purpose of application'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Back-end - downloading data'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Back - end - plotting data'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Back - end - fitting model'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
